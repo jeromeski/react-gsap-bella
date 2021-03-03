@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
 
 const Navbar = () => {
-  const initNavigation = () => {
+	const initNavigation = () => {
 		const mainNavLinks = gsap.utils.toArray('.main-nav a');
 		mainNavLinks.forEach((link) => {
 			link.addEventListener('mouseleave', (e) => {
@@ -13,9 +14,18 @@ const Navbar = () => {
 				}, 300);
 			});
 		});
+    ScrollTrigger.create({
+			start: 100,
+			toggleClass: {
+				targets: 'body',
+				className: 'has-scrolled'
+			},
+			markers: true
+		});
 	};
 
 	useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
 		initNavigation();
 	}, []);
 
