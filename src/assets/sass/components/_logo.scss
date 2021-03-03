@@ -1,0 +1,35 @@
+// LOGO 
+
+.logo {
+  position: fixed;
+  left: 0;
+  height: $header-height;
+  width: 280px;
+  display: flex;
+  align-items: center;
+  z-index: 3;
+
+  &__img {
+    width: 55px;
+    height: 55px;
+    background: url('../../img/img_logo.svg') no-repeat center;
+    background-size: 55px 55px;
+    display: block;
+    position: absolute;
+    left: 1.2vw;
+    transition: opacity 0.3s linear;
+    opacity: 0;
+  }
+
+  &__text {
+    color: $color-text;
+    font-size: 3.125vw;
+    font-family: $font-headings;
+    letter-spacing: 7px;
+    padding-left: $h-gutter;
+    transition: opacity 0.3s linear;
+    opacity: 1;
+    text-transform: uppercase;
+  }
+  
+}

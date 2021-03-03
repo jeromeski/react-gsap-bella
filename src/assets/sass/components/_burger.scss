@@ -1,0 +1,32 @@
+// BURGER
+
+.burger {
+  width: $burger-width;
+  height: $header-height;
+  position: fixed;
+  top: 0;
+  left: auto;
+  right: $h-gutter;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  transition: transform 0.3s $easing;
+  transform: translateX(0);
+
+  &__open span {
+    width: $burger-width;
+    height: 2px;
+    background-color: #fff;
+    margin: 6px 0;
+    display: block;
+  }
+
+  & button {
+    position: absolute;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    height: 40px;
+    background: none;
+  }
+}

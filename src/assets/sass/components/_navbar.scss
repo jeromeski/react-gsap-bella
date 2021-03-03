@@ -1,0 +1,50 @@
+/* =Main Navigation */
+.main-nav {
+	position: fixed;
+	top: 0;
+	right: calc(#{$h-gutter} + 3vw);
+	z-index: 3;
+
+	& ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+	}
+
+	& li {
+		padding: 0;
+		margin-right: 3vw;
+		height: $header-height;
+		display: flex;
+		align-items: center;
+	}
+
+	& a {
+		color: $color-text;
+		text-decoration: none;
+		text-transform: uppercase;
+		letter-spacing: 0.1vw;
+		position: relative;
+		overflow: hidden;
+	}
+	& a:after {
+		display: block;
+		content: '';
+		height: 2px;
+		background-color: $color-text;
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		transform: translateX(-101%);
+	}
+	& a:hover::after {
+		transition: transform 0.3s $easing;
+		transform: translateX(0);
+	}
+
+	& a.animate-out::after {
+		transition: transform 0.3s $easing;
+		transform: translateX(100%);
+	}
+}
