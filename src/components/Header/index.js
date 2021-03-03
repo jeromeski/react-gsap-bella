@@ -5,7 +5,7 @@ import landscape3 from '../../assets/img/img_landscape-03-large.jpg';
 
 const Header = () => {
 	return (
-		<header dataColor='#ACB7AE'>
+		<header datacolor='#ACB7AE'>
 			<h1>
 				<span>Consectetur</span>
 				<span>Adipisicing</span>
