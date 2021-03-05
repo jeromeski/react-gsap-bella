@@ -52,6 +52,7 @@ header h1 span {
   left: 58%;
   background: url('../../img/img_logo.svg') no-repeat center;
   background-size: 50% 50%;
+  pointer-events: none;
 }
 .cta__circle--logo {
   width: 7.7vw;
