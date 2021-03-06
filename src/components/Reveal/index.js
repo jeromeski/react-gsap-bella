@@ -10,8 +10,12 @@ const Reveal = () => {
 	const initHoverReveal = useCallback(() => {
 		revealEl.current.forEach((section, idx) => {
 			// get components for animation
-			section.imgBlock = section.childNodes[1];
-			section.mask = section.childNodes[1].childNodes[0];
+			section.imgBlock = section.lastChild;
+			section.mask = section.lastChild.lastChild;
+			section.text = section.firstChild;
+			section.textCopy = section.firstChild.lastChild;
+
+			console.log(section.text);
 
 			// reset the initial position
 			gsap.set(section.imgBlock, {
@@ -26,9 +30,13 @@ const Reveal = () => {
 		});
 	}, []);
 
+	// Auto resize height of textCopy element so it animate ups perfectly
+	const getTextHeight = (textCopy) => {
+		return textCopy.clientHeight;
+	};
+
 	const createHoverReveal = (e) => {
-		const { imgBlock, mask } = e.target;
-		console.log(imgBlock);
+		const { imgBlock, mask, text, textCopy } = e.target;
 
 		let tl = gsap.timeline({
 			defaults: {
@@ -38,9 +46,15 @@ const Reveal = () => {
 		});
 
 		if (e.type === 'mouseenter') {
-			tl.to([mask, imgBlock], { yPercent: 0 });
+			tl
+        // .to([mask, imgBlock], { yPercent: 0 })
+        // Element gets dynamically animated up, with reference to the size of the text
+        .to(text, { y: () => -getTextHeight(textCopy) / 2 });
 		} else if (e.type === 'mouseleave') {
-			tl.to(mask, { yPercent: 100 }).to(imgBlock, { yPercent: -101 }, 0);
+			tl
+        // .to(mask, { yPercent: 100 })
+        // .to(imgBlock, { yPercent: -101 }, 0)
+        .to(text, { y: 0 });
 		}
 		return tl;
 	};
