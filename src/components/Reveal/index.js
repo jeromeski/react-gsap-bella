@@ -1,33 +1,53 @@
-import gsap from 'gsap/gsap-core';
-import React, { useEffect, useRef } from 'react';
+import gsap, { Power4 } from 'gsap/all';
+
+import React, { useEffect, useRef, useCallback } from 'react';
 import { rgData } from '../../data';
 
 const Reveal = () => {
 	//  get elements for animation
 	let revealEl = useRef([]);
-	let imageBlockEl = useRef([]);
-	let maskEl = useRef([]);
 
-	const initHoverReveal = () => {
+	const initHoverReveal = useCallback(() => {
 		revealEl.current.forEach((section, idx) => {
+			// get components for animation
+			section.imgBlock = section.childNodes[1];
+			section.mask = section.childNodes[1].childNodes[0];
+
 			// reset the initial position
-			gsap.set(imageBlockEl.current[idx], {
+			gsap.set(section.imgBlock, {
 				yPercent: -101
 			});
-			gsap.set(maskEl.current[idx], { yPercent: 100 });
+			gsap.set(section.mask, {
+				yPercent: 100
+			});
 
 			section.addEventListener('mouseenter', createHoverReveal);
 			section.addEventListener('mouseleave', createHoverReveal);
 		});
-	};
+	}, []);
 
 	const createHoverReveal = (e) => {
-		console.log(e.type);
+		const { imgBlock, mask } = e.target;
+		console.log(imgBlock);
+
+		let tl = gsap.timeline({
+			defaults: {
+				duration: 0.7,
+				ease: Power4.easeOut
+			}
+		});
+
+		if (e.type === 'mouseenter') {
+			tl.to([mask, imgBlock], { yPercent: 0 });
+		} else if (e.type === 'mouseleave') {
+			tl.to(mask, { yPercent: 100 }).to(imgBlock, { yPercent: -101 }, 0);
+		}
+		return tl;
 	};
 
 	useEffect(() => {
 		initHoverReveal();
-	});
+	}, [initHoverReveal]);
 
 	return (
 		<article>
@@ -49,11 +69,8 @@ const Reveal = () => {
 								</div>
 							</div>
 						</div>
-						<div className='rg__image' ref={(el) => (imageBlockEl.current[idx] = el)}>
-							<div
-								className='rg__image--mask'
-								style={{ transform: data.style }}
-								ref={(el) => (maskEl.current[idx] = el)}>
+						<div className='rg__image'>
+							<div className='rg__image--mask' style={{ transform: data.style }}>
 								<img
 									src={require(`../../assets/img/${data.imgName}.jpg`).default}
 									alt={data.altName}
