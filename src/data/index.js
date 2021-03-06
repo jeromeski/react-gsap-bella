@@ -35,18 +35,44 @@ export const hgRight = () => [
 	}
 ];
 
-/*
-<div className='hg__right'>
-					<div className='hg__image hg__image--l'>
-						<img src={landscape3} alt='landscape 3' />
-					</div>
-					<div className='hg__image hg__image--m'>
-						<img src={landscape1} alt='landscape 1' />
-					</div>
-					<div className='hg__image hg__image--s'>
-						<img src={landscape2} alt='landscape 2' />
-					</div>
-				</div>
-*/ 
-
+export const rgData = () => [
+	{
+		id: 1,
+		classL1: 'left',
+		color: '#a6b3b3',
+		titleNum: '01',
+		title: 'Adipisicing Elitare',
+		description: 'Lorem ipsum dolor sit amet consectetur.',
+		imgName: 'img_landscape-01-large',
+		style1: '',
+		style2: '',
+		altName: 'Reveal gallery photo'
+	},
+	{
+		id: 2,
+		classL1: 'center',
+		color: '#b0a7a4',
+		titleNum: '02',
+		title: 'Accusamus Accusantium',
+		description:
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas aut veritatis.',
+		imgName: 'img_landscape-02-large',
+		style1: 'translateY(-20%)',
+		style2: 'translateY(20%)',
+		altName: 'Reveal gallery photo'
+	},
+	{
+		id: 3,
+		classL1: 'right',
+		color: '#a3abb14',
+		titleNum: '03',
+		title: 'Ratione Quibusdam',
+		description:
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas aut veritatis nostrum ratione quibusdam ea non laudantium accusamus accusantium molestias.',
+		imgName: 'img_landscape-03-large',
+		style1: '',
+		style2: '',
+		altName: 'Reveal gallery photo'
+	}
+];
 

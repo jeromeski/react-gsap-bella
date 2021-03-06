@@ -8,7 +8,6 @@ const Navbar = (props) => {
   let navLinkItem = useRef([])
 
   const handleMouseLeave = (e) => {
-		console.log(e.target);
 		e.target.classList.add('animate-out');
 		const timer = setTimeout(() => {
 			e.target.classList.remove('animate-out');
@@ -27,7 +26,6 @@ const Navbar = (props) => {
   const handleHideLinks = (hidelinks) => {
     const navLinkRefsRev = navLinkItem.current.reverse();
     const navLinkRefs = navLinkItem.current;
-    console.log(navLinkRefs, navLinkRefsRev);
     const links = hidelinks ? navLinkRefs : navLinkRefsRev;
     
 		return gsap.to(links, {

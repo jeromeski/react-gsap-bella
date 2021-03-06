@@ -1,0 +1,138 @@
+/* =Reveal Gallery */
+.reveal-gallery {
+	width: 100%;
+	flex-direction: column;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	color: $color-text;
+	position: relative;
+	z-index: 1;
+}
+
+.rg {
+	&__image {
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: #000000;
+		pointer-events: none;
+
+		& img {
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			object-fit: cover;
+			object-position: 50% 50%;
+			opacity: 0.8;
+		}
+	}
+
+	&__column {
+		flex-grow: 1; /* equivalent to 33.33% */
+		padding: 0 $h-gutter;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		position: relative;
+		overflow: hidden;
+		min-height: 50vh;
+	}
+	&__text--heading h3 {
+		font-size: 3.6vw;
+		line-height: 1.192307692;
+	}
+	&__text--heading span {
+		font-size: 2vw;
+		opacity: 0.5;
+	}
+	&__text--heading h3,
+	&__text--heading span,
+	.chapter {
+		font-family: $font-headings;
+		font-weight: normal;
+	}
+	&__text {
+		z-index: 1;
+		position: relative;
+	}
+	&__text--copy {
+		font-weight: 300;
+		letter-spacing: 0.03vw;
+	}
+	&__column::before {
+		display: block;
+		position: absolute;
+		top: 50%;
+		left: 0;
+		content: '';
+		width: 1px;
+		height: 20vh;
+		transform: translateY(-50%);
+		background-color: $color-text;
+		opacity: 0.4;
+	}
+	&__image {
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		transform: translateY(-100%);
+		transition: transform 0.45s $easing;
+
+		&--mask {
+			height: 100%;
+			overflow: hidden;
+			transition: transform 0.45s $easing;
+			transform: translateY(100%);
+		}
+
+		& img {
+			opacity: 0.6;
+		}
+	}
+	&__column.is-active &__image,
+	&__column.is-active &__image--mask {
+		transform: translateY(0);
+	}
+	&__text--mask {
+		overflow: hidden;
+	}
+}
+
+.fill-background {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+}
+
+/* ==========================================================================
+  Media Queries
+ ========================================================================== */
+
+@media only screen and (min-width: 480px) {
+}
+
+@media only screen and (min-width: 768px) {
+	/* =Reveal Gallery */
+	.reveal-gallery {
+		flex-direction: row;
+		height: 100vh;
+	}
+	.rg__column {
+		min-height: auto;
+	}
+	.rg__text--copy {
+		position: absolute;
+		overflow: hidden;
+	}
+	.rg__text {
+		max-width: 17vw;
+	}
+}
+
+@media only screen and (min-width: 1140px) {
+}
