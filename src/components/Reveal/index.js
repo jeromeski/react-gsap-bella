@@ -11,18 +11,24 @@ const Reveal = () => {
 		revealEl.current.forEach((section, idx) => {
 			// get components for animation
 			section.imgBlock = section.lastChild;
+      section.image = section.lastChild.firstChild.firstChild;
 			section.mask = section.lastChild.lastChild;
 			section.text = section.firstChild;
 			section.textCopy = section.firstChild.lastChild;
+			section.textMask = section.firstChild.lastChild.firstChild;
+			section.textP = section.firstChild.lastChild.firstChild.firstChild;
 
-			console.log(section.text);
+			console.log(section);
 
 			// reset the initial position
-			gsap.set(section.imgBlock, {
+			gsap.set([section.imgBlock, section.textMask], {
 				yPercent: -101
 			});
-			gsap.set(section.mask, {
+			gsap.set([section.mask, section.textP], {
 				yPercent: 100
+			});
+      gsap.set(section.image, {
+        scale: 1.2
 			});
 
 			section.addEventListener('mouseenter', createHoverReveal);
@@ -36,7 +42,7 @@ const Reveal = () => {
 	};
 
 	const createHoverReveal = (e) => {
-		const { imgBlock, mask, text, textCopy } = e.target;
+		const { imgBlock, mask, text, textCopy, textMask, textP, image } = e.target;
 
 		let tl = gsap.timeline({
 			defaults: {
@@ -46,15 +52,15 @@ const Reveal = () => {
 		});
 
 		if (e.type === 'mouseenter') {
-			tl
-        // .to([mask, imgBlock], { yPercent: 0 })
-        // Element gets dynamically animated up, with reference to the size of the text
-        .to(text, { y: () => -getTextHeight(textCopy) / 2 });
+			tl.to([mask, imgBlock, textMask, textP], { yPercent: 0 })
+				// Element gets dynamically animated up, with reference to the size of the text
+				.to(text, { y: () => -getTextHeight(textCopy) / 2 }, 0)
+        .to(image, {duration: 1.1, scale: 1}, 0)
 		} else if (e.type === 'mouseleave') {
-			tl
-        // .to(mask, { yPercent: 100 })
-        // .to(imgBlock, { yPercent: -101 }, 0)
-        .to(text, { y: 0 });
+			tl.to([mask, textP], { yPercent: 100 })
+				.to([imgBlock, textMask], { yPercent: -101 }, 0)
+				.to(text, { y: 0 }, 0)
+        .to(image, {scale: 1.2}, 0)
 		}
 		return tl;
 	};
