@@ -8,8 +8,8 @@ import { DeviceSize } from '../../responsive';
 const Reveal = () => {
 	//  get elements for animation
 	let revealEl = useRef([]);
-  const [isLaptop, setIsLaptop] = useState( useMediaQuery({ minWidth: DeviceSize.medium }))
-
+	//  css breakpoint basis is min-width
+	const [isLaptop, setIsLaptop] = useState(useMediaQuery({ minWidth: DeviceSize.medium }));
 
 	const createHoverReveal = useCallback((e) => {
 		const { imgBlock, mask, text, textCopy, textMask, textP, image } = e.target;
@@ -67,31 +67,33 @@ const Reveal = () => {
 		return textCopy.clientHeight;
 	};
 
-  const resetProps = (elements) => {
-    gsap.killTweensOf('*');
+	const resetProps = (elements) => {
+		gsap.killTweensOf('*');
 		elements.forEach((el) => {
 			el && gsap.set(el, { clearProps: 'all' });
 		});
-	}; 
+	};
 
-	const handleWidthChange = useCallback(
-		() => {
-			if (isLaptop) {
-				initHoverReveal();
-			} else {
-				revealEl.current.forEach((section) => {
-					section.removeEventListener('mouseenter', createHoverReveal);
-					section.removeEventListener('mouseleave', createHoverReveal);
-					const { imageBlock, mask, text, textCopy, textMask, textP, image } = section;
-					resetProps([imageBlock, mask, text, textCopy, textMask, textP, image])
-				});
-			}
-		},[initHoverReveal, isLaptop, createHoverReveal]
-	);
+	const handleWidthChange = useCallback(() => {
+    // Check for appropriate breakpoint
+		if (isLaptop) {
+      // setup hover animation
+			initHoverReveal();
+		} else {
+      // width is less than 768px
+			revealEl.current.forEach((section) => {
+        // remove event listeners
+				section.removeEventListener('mouseenter', createHoverReveal);
+				section.removeEventListener('mouseleave', createHoverReveal);
+				const { imageBlock, mask, text, textCopy, textMask, textP, image } = section;
+				resetProps([imageBlock, mask, text, textCopy, textMask, textP, image]);
+			});
+		}
+	}, [initHoverReveal, isLaptop, createHoverReveal]);
 
 	useEffect(() => {
 		handleWidthChange(isLaptop, setIsLaptop);
-	}, [handleWidthChange,isLaptop, setIsLaptop]);
+	}, [handleWidthChange, isLaptop, setIsLaptop]);
 
 	return (
 		<article>
