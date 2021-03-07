@@ -1,11 +1,16 @@
 import gsap, { Power4 } from 'gsap/all';
-
 import React, { useEffect, useRef, useCallback } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import { rgData } from '../../data';
+import { DeviceSize } from '../../responsive';
 
 const Reveal = () => {
 	//  get elements for animation
 	let revealEl = useRef([]);
+	const isMobile = useMediaQuery({ maxWidth: DeviceSize.mobile });
+	const isTablet = useMediaQuery({ maxWidth: DeviceSize.tablet });
+	const isLaptop = useMediaQuery({ maxWidth: DeviceSize.laptop });
+	const isDesktop = useMediaQuery({ maxWidth: DeviceSize.desktop });
 
 	const createHoverReveal = useCallback((e) => {
 		const { imgBlock, mask, text, textCopy, textMask, textP, image } = e.target;
@@ -42,8 +47,6 @@ const Reveal = () => {
 			section.textMask = section.firstChild.lastChild.firstChild;
 			section.textP = section.firstChild.lastChild.firstChild.firstChild;
 
-			console.log(section);
-
 			// reset the initial position
 			gsap.set([section.imgBlock, section.textMask], {
 				yPercent: -101
@@ -65,9 +68,17 @@ const Reveal = () => {
 		return textCopy.clientHeight;
 	};
 
+	const handleWidthChange = useCallback(() => {
+		if (isTablet) {
+			console.log('I am mobile/ tablet')
+		} else {
+      initHoverReveal();
+		}
+	}, []);
+
 	useEffect(() => {
-		initHoverReveal();
-	}, [initHoverReveal]);
+		handleWidthChange();
+	}, [handleWidthChange]);
 
 	return (
 		<article>
