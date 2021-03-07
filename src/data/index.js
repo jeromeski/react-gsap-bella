@@ -76,3 +76,41 @@ export const rgData = () => [
 	}
 ];
 
+
+export const portfolio = [
+	{
+		id: 1,
+		color: '#b3a8b3',
+		imgBig: 'img_portfolio-01-480-720',
+		imgSmall: 'img_portfolio-02-480-720',
+		title: 'Voluptas & Veritatis'
+	},
+	{
+		id: 2,
+		color: '#b3a8b3',
+		imgBig: 'img_portfolio-01-480-720',
+		imgSmall: 'img_portfolio-02-480-720',
+		title: 'Nostrum & Quibusdam'
+	},
+	{
+		id: 3,
+		color: '#a0abb4',
+		imgBig: 'img_portfolio-01-480-720',
+		imgSmall: 'img_portfolio-02-480-720',
+		title: 'Elit & Laudantium'
+	},
+	{
+		id: 4,
+		color: '#a3b1ae',
+		imgBig: 'img_portfolio-01-480-720',
+		imgSmall: 'img_portfolio-02-480-720',
+		title: 'Tatione & Nona'
+	},
+	{
+		id: 5,
+		color: '#afaba2',
+		imgBig: 'img_portfolio-01-480-720',
+		imgSmall: 'img_portfolio-02-480-720',
+		title: 'Accusantium Bold'
+	}
+];
