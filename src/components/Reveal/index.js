@@ -1,5 +1,6 @@
+
 import gsap, { Power4 } from 'gsap/all';
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { rgData } from '../../data';
 import { DeviceSize } from '../../responsive';
@@ -7,10 +8,8 @@ import { DeviceSize } from '../../responsive';
 const Reveal = () => {
 	//  get elements for animation
 	let revealEl = useRef([]);
-	const isMobile = useMediaQuery({ maxWidth: DeviceSize.mobile });
-	const isTablet = useMediaQuery({ maxWidth: DeviceSize.tablet });
-	const isLaptop = useMediaQuery({ maxWidth: DeviceSize.laptop });
-	const isDesktop = useMediaQuery({ maxWidth: DeviceSize.desktop });
+  const [isLaptop, setIsLaptop] = useState( useMediaQuery({ minWidth: DeviceSize.medium }))
+
 
 	const createHoverReveal = useCallback((e) => {
 		const { imgBlock, mask, text, textCopy, textMask, textP, image } = e.target;
@@ -68,17 +67,31 @@ const Reveal = () => {
 		return textCopy.clientHeight;
 	};
 
-	const handleWidthChange = useCallback(() => {
-		if (isTablet) {
-			console.log('I am mobile/ tablet')
-		} else {
-      initHoverReveal();
-		}
-	}, []);
+  const resetProps = (elements) => {
+    gsap.killTweensOf('*');
+		elements.forEach((el) => {
+			el && gsap.set(el, { clearProps: 'all' });
+		});
+	}; 
+
+	const handleWidthChange = useCallback(
+		() => {
+			if (isLaptop) {
+				initHoverReveal();
+			} else {
+				revealEl.current.forEach((section) => {
+					section.removeEventListener('mouseenter', createHoverReveal);
+					section.removeEventListener('mouseleave', createHoverReveal);
+					const { imageBlock, mask, text, textCopy, textMask, textP, image } = section;
+					resetProps([imageBlock, mask, text, textCopy, textMask, textP, image])
+				});
+			}
+		},[initHoverReveal, isLaptop, createHoverReveal]
+	);
 
 	useEffect(() => {
-		handleWidthChange();
-	}, [handleWidthChange]);
+		handleWidthChange(isLaptop, setIsLaptop);
+	}, [handleWidthChange,isLaptop, setIsLaptop]);
 
 	return (
 		<article>
