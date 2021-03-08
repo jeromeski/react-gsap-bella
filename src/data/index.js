@@ -87,9 +87,9 @@ export const portfolio = [
 	},
 	{
 		id: 2,
-		color: '#b3a8b3',
-		imgBig: 'img_portfolio-01-480-720',
-		imgSmall: 'img_portfolio-02-480-720',
+		color: '#bab6a8',
+		imgBig: 'img_portfolio-02-480-720',
+		imgSmall: 'img_portfolio-01-480-720',
 		title: 'Nostrum & Quibusdam'
 	},
 	{
@@ -102,8 +102,8 @@ export const portfolio = [
 	{
 		id: 4,
 		color: '#a3b1ae',
-		imgBig: 'img_portfolio-01-480-720',
-		imgSmall: 'img_portfolio-02-480-720',
+		imgBig: 'img_portfolio-02-480-720',
+		imgSmall: 'img_portfolio-01-480-720',
 		title: 'Tatione & Nona'
 	},
 	{
