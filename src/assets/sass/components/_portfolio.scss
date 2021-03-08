@@ -11,6 +11,20 @@
 		top: 0;
 	}
 
+  // & .chapter {
+  // font-family: $font-headings;
+  // font-weight: normal;
+  // position: absolute;
+  // left: $h-gutter;
+  // top: $v-spacing;
+  // z-index: 2;
+  // color: $color-text;
+  // font-size: 1.6vw;
+  // }
+  // & .chapter span {
+  // opacity: 0.4;
+  // }
+
 	&__categories {
 		display: flex;
 		flex-direction: column;

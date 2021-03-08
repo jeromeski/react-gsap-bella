@@ -1,0 +1,11 @@
+/* =Contact - same layout as blog, but flipped image and text */
+.contact .chapter {
+  color: $color-text;
+}
+.is-flipped .blog__image {
+  margin: 0 16.6% 0 50%;
+}
+.is-flipped .blog__text {
+  right: calc(50vw + #{$h-gutter});
+  left: 16.6%;
+}

@@ -80,7 +80,10 @@ const Portfolio = ({ pgbg }) => {
 	}, [initPortfolioHover]);
 
 	return (
-		<section className='portfolio'>
+		<section className='portfolio with-padding'>
+			<h2 class='chapter'>
+				<span>002 -</span> Portfolio
+			</h2>
 			<div className='portfolio__categories' ref={categsRef}>
 				{portfolio.map((link, idx) => (
 					<a
