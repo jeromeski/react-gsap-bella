@@ -32,8 +32,11 @@ const Portfolio = ({pgbg}) => {
 					.to(pgbg.current, { backgroundColor: color, ease: 'none' }, 0);
 			} else if (e.type === 'mouseleave') {
 				// fade out images
+        tl.to([largeImageRef.current, smallImageRef.current], {autoAlpha: 0}, 0)
 				// all links back to black
+        .to(allLinks, {color: '#000', autoAlpha: 1}, 0)
 				// change background color back to #ACB7AB
+        .to(pgbg.current, {backgroundColor: '#ACB7AB', ease: 'none' })
 			}
 		},
 		[tl, allLinks, pgbg]
