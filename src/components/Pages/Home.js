@@ -13,7 +13,7 @@ const Home = () => {
 				<Reveal />
 				<Portfolio pgbg={pgbgRef} />
 			</main>
-			<aside className='fill-background' style={{ backgroundColor: '#ACB7AE' }} ref={pgbgRef}></aside>
+			<aside className='fill-background' ref={pgbgRef}></aside>
 		</Fragment>
 	);
 };

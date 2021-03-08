@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Timeline } from 'gsap/gsap-core';
+import gsap, { Timeline, Power3, Power4 } from 'gsap/gsap-core';
 import { portfolio } from '../../data';
 
-const Portfolio = ({pgbg}) => {
+const Portfolio = ({ pgbg }) => {
 	const [tl] = useState(new Timeline());
 	let linkRef = useRef([]);
 	let allLinks = linkRef.current;
@@ -10,6 +10,32 @@ const Portfolio = ({pgbg}) => {
 	let sInsideRef = useRef(null);
 	let largeImageRef = useRef(null);
 	let smallImageRef = useRef(null);
+	let categsRef = useRef(null);
+
+	const getPortfolioOffset = (clientY) => {
+		return -(categsRef.current.clientHeight - clientY);
+	};
+
+	const createPortfolioMove = useCallback(
+		(e) => {
+			const { clientY } = e;
+
+			// move large image
+			gsap.to(largeImageRef.current, {
+				duration: 1.2,
+				y: getPortfolioOffset(clientY) / 6,
+				ease: Power3.easeOut
+			});
+
+			// move small image
+			gsap.to(smallImageRef.current, {
+				duration: 1.5,
+				y: getPortfolioOffset(clientY) / 3,
+				ease: Power4.easeOut
+			});
+		},
+		[]
+	);
 
 	const createPortfolioHover = useCallback(
 		(e) => {
@@ -20,7 +46,7 @@ const Portfolio = ({pgbg}) => {
 			if (e.type === 'mouseenter') {
 				const allSiblings = allLinks.filter((item) => item !== e.target);
 				// change images to the right urls
-				tl.set(lInside.current, { backgroundImage: `url(${imagelarge})`})
+				tl.set(lInside.current, { backgroundImage: `url(${imagelarge})` })
 					.set(sInside.current, { backgroundImage: `url(${imagesmall})` })
 					// fade in images
 					.to([largeImageRef.current, smallImageRef.current], { autoAlpha: 1 })
@@ -32,30 +58,30 @@ const Portfolio = ({pgbg}) => {
 					.to(pgbg.current, { backgroundColor: color, ease: 'none' }, 0);
 			} else if (e.type === 'mouseleave') {
 				// fade out images
-        tl.to([largeImageRef.current, smallImageRef.current], {autoAlpha: 0}, 0)
-				// all links back to black
-        .to(allLinks, {color: '#000', autoAlpha: 1}, 0)
-				// change background color back to #ACB7AB
-        .to(pgbg.current, {backgroundColor: '#ACB7AB', ease: 'none' })
+				tl.to([largeImageRef.current, smallImageRef.current], { autoAlpha: 0 }, 0.1)
+					// all links back to black
+					.to(allLinks, { color: '#000', autoAlpha: 1 }, 0)
+					// change background color back to #ACB7AB
+					.to(pgbg.current, { backgroundColor: '#ACB7AB', ease: 'none' }, 0);
 			}
-		},
-		[tl, allLinks, pgbg]
+		},[pgbg, tl, allLinks]
 	);
 
 	const initPortfolioHover = useCallback(() => {
 		allLinks.forEach((link) => {
 			link.addEventListener('mouseenter', createPortfolioHover);
 			link.addEventListener('mouseleave', createPortfolioHover);
+			link.addEventListener('mousemove', createPortfolioMove);
 		});
-	}, [createPortfolioHover, allLinks]);
+	}, [createPortfolioHover, allLinks, createPortfolioMove]);
 
 	useEffect(() => {
 		initPortfolioHover();
 	}, [initPortfolioHover]);
 
 	return (
-		<section className='portfolio' >
-			<div className='portfolio__categories'>
+		<section className='portfolio'>
+			<div className='portfolio__categories' ref={categsRef}>
 				{portfolio.map((link, idx) => (
 					<a
 						ref={(el) => (linkRef.current[idx] = el)}
