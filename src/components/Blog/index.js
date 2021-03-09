@@ -1,16 +1,17 @@
 import React, { Fragment, useEffect, useCallback, useRef } from 'react';
-import gsap, { ScrollTrigger } from 'gsap/all';
+import gsap, { ScrollTrigger, ScrollToPlugin, Power2 } from 'gsap/all';
 import portfolio2ImgURL from '../../assets/img/img_portfolio-02-480-720.jpg';
 import landscape1ImgURL from '../../assets/img/img_landscape-01-large.jpg';
 import landscape2ImgURL from '../../assets/img/img_landscape-02-large.jpg';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const Blog = ({pgbg}) => {
 	let withParallaxRefs = useRef([]);
 	let fixedNavRef = useRef(null);
 	let fixedNavLinkRefs = useRef([]);
 	let stages = useRef([]);
+
 
 	const initImageParallax = useCallback(() => {
 		const withParallax = withParallaxRefs.current;
@@ -72,9 +73,25 @@ const Blog = ({pgbg}) => {
 		});
 	}, [stages, pgbg]);
 
+  const initScrollTo = () => {
+   console.log(fixedNavLinkRefs)
+   const navLinks = fixedNavLinkRefs.current
+   navLinks.forEach((link) => {
+     const target = link.firstChild.getAttribute('href')
+     console.dir(link.firstChild)
+
+     link.firstChild.onclick = (e) => {
+       e.preventDefault();
+       gsap.to(window, {duration: 1.5, scrollTo: target, ease: Power2.easeOut})
+     }
+   });
+  }
+
+
 	useEffect(() => {
 		initImageParallax();
 		initPinSteps();
+    initScrollTo();
 	}, [initImageParallax, initPinSteps]);
 
 	return (
@@ -100,7 +117,7 @@ const Blog = ({pgbg}) => {
 				</h2>
 				<div className='fixed-nav' ref={fixedNavRef}>
 					<ul>
-						<li className='is-active' ref={(el) => (fixedNavLinkRefs.current[0] = el)}>
+						<li ref={(el) => (fixedNavLinkRefs.current[0] = el)}>
 							<a href='#stage1'>Amet Consectetur </a>
 						</li>
 						<li ref={(el) => (fixedNavLinkRefs.current[1] = el)}>
