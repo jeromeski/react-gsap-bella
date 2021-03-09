@@ -9,9 +9,10 @@ gsap.registerPlugin(ScrollTrigger);
 const Blog = () => {
   let withParallaxRefs = useRef([]);
   let fixedNavRef = useRef(null);
+  let fixedNavLinkRefs = useRef([]);
+	let stages = useRef([]);
 
 	const initImageParallax = useCallback(() => {
-		console.log(withParallaxRefs);
 		const withParallax = withParallaxRefs.current;
 
 		withParallax.forEach((section) => {
@@ -34,10 +35,35 @@ const Blog = () => {
 			start: 'top center',
 			endTrigger: withParallaxRefs.current[4],
 			end: 'center center',
-			pin: true,
-			markers: true
+			pin: true
 		});
-	}, []);
+
+    const getVh = () => {
+      const vh = Math.max( document.documentElement.clientHeight || 0, window.innerHeight || 0);
+      return vh
+    }
+
+    stages.current = [
+			withParallaxRefs.current[1],
+			withParallaxRefs.current[2],
+			withParallaxRefs.current[3],
+			withParallaxRefs.current[4]
+		];
+
+		const navLinks = fixedNavLinkRefs.current;
+    
+		stages.current.forEach((stage, idx) => {
+			ScrollTrigger.create({
+				trigger: stage,
+				start: 'top center',
+        end: `+=${stage.clientHeight+getVh()/10}`,
+				toggleClass: {
+					targets: navLinks[idx],
+					className: 'is-active'
+				}
+			});
+		});
+	}, [stages]);
 
 	useEffect(() => {
 		initImageParallax();
@@ -67,16 +93,16 @@ const Blog = () => {
 				</h2>
 				<div className='fixed-nav' ref={fixedNavRef}>
 					<ul>
-						<li className='is-active'>
+						<li className='is-active' ref={(el) => (fixedNavLinkRefs.current[0] = el)}>
 							<a href='#stage1'>Amet Consectetur </a>
 						</li>
-						<li>
+						<li ref={(el) => (fixedNavLinkRefs.current[1] = el)}>
 							<a href='#stage2'>Eum Similique</a>
 						</li>
-						<li>
+						<li ref={(el) => (fixedNavLinkRefs.current[2] = el)}>
 							<a href='#stage3'>Cupiditate Vel</a>
 						</li>
-						<li>
+						<li ref={(el) => (fixedNavLinkRefs.current[3] = el)}>
 							<a href='#stage4'>Dignissimos Sed</a>
 						</li>
 					</ul>
@@ -177,3 +203,4 @@ const Blog = () => {
 };
 
 export default Blog;
+
