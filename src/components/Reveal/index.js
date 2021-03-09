@@ -97,7 +97,7 @@ const Reveal = () => {
 
 	return (
 		<section className='reveal-gallery'>
-			<h2 class='chapter'>
+			<h2 className='chapter'>
 				<span>001 -</span> Our Values
 			</h2>
 			{rgData().map((data, idx) => (

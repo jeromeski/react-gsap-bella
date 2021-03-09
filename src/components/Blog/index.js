@@ -1,17 +1,46 @@
-import React, { Fragment } from 'react';
-
+import React, { Fragment, useEffect, useCallback, useRef } from 'react';
+import gsap, { ScrollTrigger } from 'gsap/all';
 import portfolio2ImgURL from '../../assets/img/img_portfolio-02-480-720.jpg';
 import landscape1ImgURL from '../../assets/img/img_landscape-01-large.jpg';
 import landscape2ImgURL from '../../assets/img/img_landscape-02-large.jpg';
 
+gsap.registerPlugin(ScrollTrigger);
+
+
+
 const Blog = () => {
+  let withParallaxRefs = useRef([]);
+
+	const initImageParallax = useCallback(() => {
+		console.log(withParallaxRefs);
+		const withParallax = withParallaxRefs.current;
+
+		withParallax.forEach((section) => {
+			const image = section.querySelector('img');
+			gsap.to(image, {
+				yPercent: 20,
+				ease: 'none',
+				scrollTrigger: {
+					trigger: section,
+					start: 'top bottom',
+					scrub: true,
+					markers: true
+				}
+			});
+		});
+	}, []);
+
+	useEffect(() => {
+		initImageParallax();
+	}, [initImageParallax]);
+
 	return (
 		<Fragment>
 			<section className='blog with-padding-bottom with-parallax'>
 				<h2 className='chapter'>
 					<span>003 -</span> Blog
 				</h2>
-				<div className='blog__post'>
+				<div className='blog__post' ref={(el) => (withParallaxRefs.current[0] = el)}>
 					<div className='blog__image'>
 						<img src={portfolio2ImgURL} alt='Portfolio' />
 					</div>
@@ -42,7 +71,11 @@ const Blog = () => {
 						</li>
 					</ul>
 				</div>
-				<div id='stage1' className='stage with-parallax' data-color='#8c8480'>
+				<div
+					id='stage1'
+					className='stage with-parallax'
+					data-color='#8c8480'
+					ref={(el) => (withParallaxRefs.current[1] = el)}>
 					<div className='stage__image'>
 						<img src={landscape1ImgURL} alt='Landscape' />
 					</div>
@@ -57,7 +90,11 @@ const Blog = () => {
 						</p>
 					</div>
 				</div>
-				<div id='stage2' className='stage with-parallax' data-color='#505156'>
+				<div
+					id='stage2'
+					className='stage with-parallax'
+					data-color='#505156'
+					ref={(el) => (withParallaxRefs.current[2] = el)}>
 					<div className='stage__image'>
 						<img src={landscape2ImgURL} alt='Landscape' />
 					</div>
@@ -72,7 +109,11 @@ const Blog = () => {
 						</p>
 					</div>
 				</div>
-				<div id='stage3' className='stage with-parallax' data-color='#717872'>
+				<div
+					id='stage3'
+					className='stage with-parallax'
+					data-color='#717872'
+					ref={(el) => (withParallaxRefs.current[3] = el)}>
 					<div className='stage__image'>
 						<img src={landscape1ImgURL} alt='Landscape' />
 					</div>
@@ -87,7 +128,11 @@ const Blog = () => {
 						</p>
 					</div>
 				</div>
-				<div id='stage4' className='stage with-parallax' data-color='#ccb28b'>
+				<div
+					id='stage4'
+					className='stage with-parallax'
+					data-color='#ccb28b'
+					ref={(el) => (withParallaxRefs.current[4] = el)}>
 					<div className='stage__image'>
 						<img src={landscape2ImgURL} alt='Landscape' />
 					</div>
@@ -107,7 +152,7 @@ const Blog = () => {
 				<h2 className='chapter'>
 					<span>005 -</span> Contact
 				</h2>
-				<div className='blog__post'>
+				<div className='blog__post' ref={(el) => (withParallaxRefs.current[5] = el)}>
 					<div className='blog__image'>
 						<img src={portfolio2ImgURL} alt='Portfolio' />
 					</div>

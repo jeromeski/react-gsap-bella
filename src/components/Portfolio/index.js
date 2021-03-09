@@ -81,7 +81,7 @@ const Portfolio = ({ pgbg }) => {
 
 	return (
 		<section className='portfolio with-padding'>
-			<h2 class='chapter'>
+			<h2 className='chapter'>
 				<span>002 -</span> Portfolio
 			</h2>
 			<div className='portfolio__categories' ref={categsRef}>
