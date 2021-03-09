@@ -6,10 +6,10 @@ import landscape2ImgURL from '../../assets/img/img_landscape-02-large.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Blog = () => {
-  let withParallaxRefs = useRef([]);
-  let fixedNavRef = useRef(null);
-  let fixedNavLinkRefs = useRef([]);
+const Blog = ({pgbg}) => {
+	let withParallaxRefs = useRef([]);
+	let fixedNavRef = useRef(null);
+	let fixedNavLinkRefs = useRef([]);
 	let stages = useRef([]);
 
 	const initImageParallax = useCallback(() => {
@@ -29,7 +29,7 @@ const Blog = () => {
 		});
 	}, []);
 
-  const initPinSteps = useCallback(() => {
+	const initPinSteps = useCallback(() => {
 		ScrollTrigger.create({
 			trigger: fixedNavRef.current,
 			start: 'top center',
@@ -38,12 +38,17 @@ const Blog = () => {
 			pin: true
 		});
 
-    const getVh = () => {
-      const vh = Math.max( document.documentElement.clientHeight || 0, window.innerHeight || 0);
-      return vh
-    }
+		const getVh = () => {
+			const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+			return vh;
+		};
 
-    stages.current = [
+		const updateBodyColor = (color, pgbg) => {
+			// gsap.to(pgbg, {  backgroundColor: color, ease: 'none'  });
+			pgbg.style.backgroundColor = color;
+		};
+
+		stages.current = [
 			withParallaxRefs.current[1],
 			withParallaxRefs.current[2],
 			withParallaxRefs.current[3],
@@ -51,19 +56,21 @@ const Blog = () => {
 		];
 
 		const navLinks = fixedNavLinkRefs.current;
-    
+
 		stages.current.forEach((stage, idx) => {
 			ScrollTrigger.create({
 				trigger: stage,
 				start: 'top center',
-        end: `+=${stage.clientHeight+getVh()/10}`,
+				end: `+=${stage.clientHeight + getVh() / 10}`,
 				toggleClass: {
 					targets: navLinks[idx],
 					className: 'is-active'
-				}
+				},
+				onEnter: () => updateBodyColor(stage.dataset.color, pgbg.current),
+				onEnterBack: () => updateBodyColor(stage.dataset.color, pgbg.current)
 			});
 		});
-	}, [stages]);
+	}, [stages, pgbg]);
 
 	useEffect(() => {
 		initImageParallax();

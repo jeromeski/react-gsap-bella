@@ -14,7 +14,7 @@ const Home = () => {
 				<article>
 					<Reveal />
 					<Portfolio pgbg={pgbgRef} />
-					<Blog />
+					<Blog pgbg={pgbgRef} />
 				</article>
 			</main>
 			<aside className='fill-background' ref={pgbgRef}></aside>
