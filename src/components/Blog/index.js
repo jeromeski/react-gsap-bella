@@ -6,10 +6,9 @@ import landscape2ImgURL from '../../assets/img/img_landscape-02-large.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
-
-
 const Blog = () => {
   let withParallaxRefs = useRef([]);
+  let fixedNavRef = useRef(null);
 
 	const initImageParallax = useCallback(() => {
 		console.log(withParallaxRefs);
@@ -23,16 +22,27 @@ const Blog = () => {
 				scrollTrigger: {
 					trigger: section,
 					start: 'top bottom',
-					scrub: true,
-					markers: true
+					scrub: true
 				}
 			});
 		});
 	}, []);
 
+  const initPinSteps = useCallback(() => {
+		ScrollTrigger.create({
+			trigger: fixedNavRef.current,
+			start: 'top center',
+			endTrigger: withParallaxRefs.current[4],
+			end: 'center center',
+			pin: true,
+			markers: true
+		});
+	}, []);
+
 	useEffect(() => {
 		initImageParallax();
-	}, [initImageParallax]);
+		initPinSteps();
+	}, [initImageParallax, initPinSteps]);
 
 	return (
 		<Fragment>
@@ -55,7 +65,7 @@ const Blog = () => {
 				<h2 className='chapter'>
 					<span>004 -</span> How We Work
 				</h2>
-				<div className='fixed-nav'>
+				<div className='fixed-nav' ref={fixedNavRef}>
 					<ul>
 						<li className='is-active'>
 							<a href='#stage1'>Amet Consectetur </a>
